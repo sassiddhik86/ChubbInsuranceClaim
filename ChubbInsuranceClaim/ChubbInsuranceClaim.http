@@ -1,0 +1,6 @@
+@ChubbInsuranceClaim_HostAddress = http://localhost:5038
+
+GET {{ChubbInsuranceClaim_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
