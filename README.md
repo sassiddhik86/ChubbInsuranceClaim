@@ -1,6 +1,6 @@
-# CHubb Insurance Claims Management API
+# Chubb Insurance Claims Management API
 
-A simple and scalable **Insurance Claims Management Backend API** built using **ASP.NET Core .NET 8**, Entity Framework Core, JWT Authentication, Clean Architecture, Service Layer, Repository Pattern, and Unit of Work.
+A simple and scalable **Chubb Insurance Claims Management Backend API** built using **ASP.NET Core .NET 8**, Entity Framework Core, JWT Authentication, Clean Architecture, Service Layer, Repository Pattern, and Unit of Work.
 
 The system supports both **claimants/customers** and **claims staff**.
 
@@ -10,7 +10,7 @@ Claims staff can review claims, assign claims, request additional information, a
 
 ---
 
-## 1. Technology Stack
+## 1. Tech Stack
 
 **Backend**
 
@@ -41,7 +41,6 @@ Claims staff can review claims, assign claims, request additional information, a
 * Dependency Injection
 * Global Exception Middleware
 
----
 ---
 
 # 2. Main Features
@@ -189,48 +188,9 @@ InsuranceClaims
     └── appsettings.json
 ```
 
-# 5. Claim Workflow
-
-The main claim lifecycle is:
-
-```text
-Submitted
-    │
-    ▼
-Assigned
-    │
-    ▼
-UnderReview
-    │
-    ├───────────────┐
-    │               │
-    ▼               ▼
-Approved      NeedMoreInformation
-    │               │
-    │               ▼
-    │        InformationReceived
-    │               │
-    └───────► UnderReview
-                    │
-                    ▼
-                Approved
-                    │
-                    ▼
-                Settled
-```
-
-A claim can also be rejected:
-
-```text
-UnderReview
-     │
-     ▼
-Rejected
-```
-
 ---
 
-# 6. API Endpoints
+# 4. API Endpoints
 
 ## Authentication
 
@@ -285,14 +245,12 @@ Authorization: Bearer <token>
 
 ```http
 GET /api/incidents/{id}
-Authorization: Bearer <token>
 ```
 
 ### Update Incident
 
 ```http
 PUT /api/incidents/{id}
-Authorization: Bearer <token>
 ```
 
 ---
@@ -303,28 +261,24 @@ Authorization: Bearer <token>
 
 ```http
 POST /api/claims
-Authorization: Bearer <token>
 ```
 
 ### Get My Claims
 
 ```http
 GET /api/claims/my
-Authorization: Bearer <token>
 ```
 
 ### Get Claim
 
 ```http
 GET /api/claims/{id}
-Authorization: Bearer <token>
 ```
 
 ### Update Claim
 
 ```http
 PUT /api/claims/{id}
-Authorization: Bearer <token>
 ```
 
 ---
@@ -342,7 +296,6 @@ Admin
 
 ```http
 PUT /api/claims/{id}/assign
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -365,7 +318,6 @@ ClaimOfficer
 
 ```http
 PUT /api/claims/{id}/review
-Authorization: Bearer <token>
 ```
 
 ---
@@ -380,7 +332,6 @@ ClaimOfficer
 
 ```http
 PUT /api/claims/{id}/request-information
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -403,7 +354,6 @@ Customer
 
 ```http
 PUT /api/claims/{id}/submit-information
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -426,7 +376,6 @@ ClaimOfficer
 
 ```http
 PUT /api/claims/{id}/approve
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -449,7 +398,6 @@ ClaimOfficer
 
 ```http
 PUT /api/claims/{id}/reject
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -472,7 +420,6 @@ Supervisor
 
 ```http
 PUT /api/claims/{id}/settle
-Authorization: Bearer <token>
 ```
 
 Example:
@@ -491,7 +438,6 @@ Example:
 
 ```http
 GET /api/dashboard/customer
-Authorization: Bearer <token>
 ```
 
 Role:
@@ -506,7 +452,6 @@ Customer
 
 ```http
 GET /api/dashboard/officer
-Authorization: Bearer <token>
 ```
 
 Role:
@@ -521,7 +466,6 @@ ClaimOfficer
 
 ```http
 GET /api/dashboard/supervisor
-Authorization: Bearer <token>
 ```
 
 Role:
@@ -568,183 +512,6 @@ or:
 ```csharp
 [Authorize(Roles = "Supervisor")]
 ```
-
----
-
-# 12. No ASP.NET Identity
-
-This application intentionally does not use:
-
-```text
-ApplicationUser
-ApplicationRole
-UserManager
-RoleManager
-SignInManager
-```
-
-Instead, the application has its own business entities:
-
-```text
-User
-Role
-```
-
-Relationship:
-
-```text
-User
-  │
-  └── RoleId
-       │
-       ▼
-      Role
-```
-
-This makes the authentication model easier to customize according to the insurance business requirements.
-
----
-
-# 13. Repository Pattern
-
-Repositories provide database access.
-
-Example:
-
-```text
-IClaimRepository
-      │
-      ▼
-ClaimRepository
-      │
-      ▼
-Entity Framework Core
-```
-
-Business services do not directly access `DbContext`.
-
-Example:
-
-```csharp
-var claim =
-    await _unitOfWork.Claims.GetByIdAsync(claimId);
-```
-
----
-
-# 14. Unit of Work
-
-The Unit of Work coordinates repositories.
-
-```text
-IUnitOfWork
-│
-├── Users
-├── Roles
-├── Claims
-├── Incidents
-├── ClaimAssignments
-└── ClaimStatusHistories
-```
-
-Changes are committed through:
-
-```csharp
-await _unitOfWork.SaveChangesAsync();
-```
-
----
-
-# 15. Business Service Layer
-
-Controllers do not contain business logic.
-
-The flow is:
-
-```text
-HTTP Request
-     │
-     ▼
-Controller
-     │
-     ▼
-Service
-     │
-     ▼
-Unit Of Work
-     │
-     ▼
-Repository
-     │
-     ▼
-EF Core
-     │
-     ▼
-Database
-```
-
-Example:
-
-```text
-ClaimsController
-       │
-       ▼
-ClaimService
-       │
-       ▼
-IUnitOfWork
-       │
-       ▼
-ClaimRepository
-       │
-       ▼
-ApplicationDbContext
-```
-
----
-
-# 16. CQRS
-
-CQRS is intentionally **not used**.
-
-The application uses a straightforward:
-
-```text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-EF Core
-```
-
-architecture.
-
-This keeps the project simple and easy to maintain.
-
----
-
-# 17. Global Exception Handling
-
-All unhandled exceptions are handled by:
-
-```text
-GlobalExceptionMiddleware.cs
-```
-
-Example response:
-
-```json
-{
-  "success": false,
-  "statusCode": 404,
-  "message": "Claim not found.",
-  "timestamp": "2026-08-11T10:00:00Z"
-}
-```
-
-This avoids putting repetitive `try/catch` blocks in every controller.
 
 ---
 
@@ -829,36 +596,6 @@ Expected:
 
 ---
 
-# 20. Configure Database
-
-Update:
-
-```text
-InsuranceClaims.API/appsettings.json
-```
-
-Example SQL Server configuration:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=InsuranceClaimsDb;Trusted_Connection=True;TrustServerCertificate=True;"
-  }
-}
-```
-
-If using SQL Server authentication:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=InsuranceClaimsDb;User Id=sa;Password=YourPassword;TrustServerCertificate=True;"
-  }
-}
-```
-
----
-
 # 21. Configure JWT
 
 In `appsettings.json`:
@@ -873,10 +610,6 @@ In `appsettings.json`:
   }
 }
 ```
-
-For production, do not commit real JWT secrets to source control.
-
-Use environment variables or a secret store.
 
 ---
 
@@ -1005,8 +738,6 @@ Password:
 Password@123
 ```
 
-The current registration logic assigns the default Customer role. Therefore, ClaimOfficer and Supervisor accounts should be created through seed data or assigned their roles directly in the database.
-
 ---
 
 # 27. Example End-to-End Scenario
@@ -1078,32 +809,12 @@ Settled
 The project follows:
 
 ### Single Responsibility
-
-Each service has a focused responsibility.
-
 ### Dependency Injection
-
-Dependencies are injected through constructors.
-
 ### Repository Pattern
-
-Database access is isolated from business logic.
-
 ### Unit of Work
-
-Coordinates multiple repository operations.
-
 ### Clean Architecture
-
-Business logic is separated from infrastructure and presentation.
-
 ### DTOs
-
-API contracts are separated from database entities.
-
 ### Role-Based Authorization
-
-Access is controlled using JWT roles.
 
 ---
 
@@ -1139,36 +850,6 @@ Access is controlled using JWT roles.
 
 ---
 
-# 30. Future Enhancements
-
-The current implementation intentionally keeps the project small.
-
-Possible future additions:
-
-* Document management
-* File uploads
-* Email notifications
-* SMS notifications
-* Payment processing
-* Advanced audit logging
-* Claim timeline API
-* Pagination
-* Filtering and sorting
-* API versioning
-* Rate limiting
-* Redis caching
-* Background jobs
-* Azure Service Bus
-* Azure Key Vault
-* Application Insights
-* Refresh tokens
-* Automated unit/integration testing
-* React frontend
-
-These can be added without changing the fundamental architecture.
-
----
-
 # 31. Summary
 
 This project provides a simple, maintainable insurance claims backend using:
@@ -1196,13 +877,3 @@ Swagger
 Global Exception Handling
 ```
 
-The application intentionally avoids:
-
-```text
-ASP.NET Identity
-CQRS
-MediatR
-Refresh Tokens
-```
-
-The result is a **small, easy-to-understand backend** that can be extended into a larger insurance claims platform as business requirements grow.
