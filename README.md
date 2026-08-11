@@ -50,8 +50,6 @@ Claims staff can review claims, assign claims, request additional information, a
 * User registration
 * User login
 * JWT authentication
-* Custom User entity
-* Custom Role entity
 * Password hashing
 * Role-based authorization
 
@@ -232,7 +230,7 @@ The response contains the JWT token.
 
 ---
 
-# 7. Incident APIs
+## Incident APIs
 
 ### Create Incident
 
@@ -255,7 +253,7 @@ PUT /api/incidents/{id}
 
 ---
 
-# 8. Claim APIs
+## Claim APIs
 
 ### Create Claim
 
@@ -283,7 +281,7 @@ PUT /api/claims/{id}
 
 ---
 
-# 9. Claim Workflow APIs
+## Claim Workflow APIs
 
 ### Assign Claim
 
@@ -432,7 +430,7 @@ Example:
 
 ---
 
-# 10. Dashboard APIs
+## Dashboard APIs
 
 ## Customer Dashboard
 
@@ -476,7 +474,21 @@ Supervisor
 
 ---
 
-# 11. Authentication
+# 5. Design Principles
+
+The project follows:
+
+### Single Responsibility
+### Dependency Injection
+### Repository Pattern
+### Unit of Work
+### Clean Architecture
+### DTOs
+### Role-Based Authorization
+
+---
+
+# 6. Authentication
 
 The API uses JWT Bearer Authentication.
 
@@ -513,9 +525,107 @@ or:
 [Authorize(Roles = "Supervisor")]
 ```
 
+### Configure JWT
+
+In `appsettings.json`:
+
+```json
+{
+  "Jwt": {
+    "Key": "YOUR_SUPER_SECRET_KEY_AT_LEAST_32_CHARACTERS",
+    "Issuer": "InsuranceClaimsAPI",
+    "Audience": "InsuranceClaimsClient",
+    "ExpiryInMinutes": 120
+  }
+}
+```
+
 ---
 
-# 18. Swagger
+# 7. Local Setup
+
+## Prerequisites
+
+Install:
+
+* .NET 8 SDK
+* Visual Studio 2022 or VS Code
+* SQL Server or SQLite
+* Swagger-compatible browser
+
+Check .NET:
+
+```bash
+dotnet --version
+```
+
+Expected:
+
+```text
+8.x.x
+```
+
+---
+
+# 8. Running the Project
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/sassiddhik86/ChubbInsuranceClaim.git
+```
+### 2. Navigate to the proejct
+
+```bash
+cd ChubbInsuranceClaim/ChubbInsuranceClaim
+```
+
+### 3. Restore dependencies
+
+```bash
+dotnet restore
+```
+
+### 4. Entity Framework Core Migration
+
+From Package Manager Console:
+
+```powershell
+Add-Migration InitialCreate
+```
+
+Then:
+
+```powershell
+Update-Database
+```
+
+Or using the .NET CLI:
+
+```bash
+dotnet ef migrations add InitialCreate
+```
+
+Then:
+
+```bash
+dotnet ef database update
+```
+
+If the migration already exists, do not create another migration with the same name.
+
+
+### 5. Run the Application
+
+From the API project:
+
+```bash
+dotnet run
+```
+
+---
+
+# 9. Swagger
 
 Swagger is enabled for API testing.
 
@@ -571,181 +681,48 @@ Use the following sequence:
 
 ---
 
-# 19. Local Setup
+# 10. Recommended to use existing Test Data (If requires)
 
-## Prerequisites
-
-Install:
-
-* .NET 8 SDK
-* Visual Studio 2022 or VS Code
-* SQL Server or SQLite
-* Swagger-compatible browser
-
-Check .NET:
-
-```bash
-dotnet --version
-```
-
-Expected:
-
-```text
-8.x.x
-```
-
----
-
-# 21. Configure JWT
-
-In `appsettings.json`:
-
-```json
-{
-  "Jwt": {
-    "Key": "YOUR_SUPER_SECRET_KEY_AT_LEAST_32_CHARACTERS",
-    "Issuer": "InsuranceClaimsAPI",
-    "Audience": "InsuranceClaimsClient",
-    "ExpiryInMinutes": 120
-  }
-}
-```
-
----
-
-# 22. Install Packages
-
-From the solution directory:
-
-```bash
-dotnet restore
-```
-
-Build:
-
-```bash
-dotnet build
-```
-
----
-
-# 23. Entity Framework Core Migration
-
-From Package Manager Console:
-
-```powershell
-Add-Migration InitialCreate
-```
-
-Then:
-
-```powershell
-Update-Database
-```
-
-Or using the .NET CLI:
-
-```bash
-dotnet ef migrations add InitialCreate
-```
-
-Then:
-
-```bash
-dotnet ef database update
-```
-
-If the migration already exists, do not create another migration with the same name.
-
----
-
-# 24. Run the Application
-
-From the API project:
-
-```bash
-dotnet run
-```
-
-Or:
-
-```bash
-dotnet run --project InsuranceClaims.API
-```
-
-The console will show something similar to:
-
-```text
-Now listening on:
-https://localhost:7xxx
-```
-
-Open:
-
-```text
-https://localhost:7xxx/swagger
-```
-
----
-
-# 25. Build the Complete Solution
-
-From the solution root:
-
-```bash
-dotnet build
-```
-
-Run:
-
-```bash
-dotnet run --project InsuranceClaims.API
-```
-
----
-
-# 26. Recommended Test Data
-
-Create these users:
+Created these users:
 
 ```text
 Customer
 
 Email:
-customer@test.com
+custjohn@test.com
 
 Password:
-Password@123
+cust123
 ```
 
 ```text
 Claim Officer
 
 Email:
-officer@test.com
+officersmith@test.com
 
 Password:
-Password@123
+off123
 ```
 
 ```text
 Supervisor
 
 Email:
-supervisor@test.com
+supervisoralex@test.com
 
 Password:
-Password@123
+sup123
 ```
 
 ---
 
-# 27. Example End-to-End Scenario
+# 11. Example End-to-End Scenario
 
 ### Step 1 — Customer Login
 
 ```text
-customer@test.com
+custjohn@test.com
 ```
 
 ### Step 2 — Report Incident
@@ -804,76 +781,35 @@ Settled
 
 ---
 
-# 28. Design Principles
+# 12. Additional Notes
+# API Testing with Postman
 
-The project follows:
+A Postman collection file is included with this project:
 
-### Single Responsibility
-### Dependency Injection
-### Repository Pattern
-### Unit of Work
-### Clean Architecture
-### DTOs
-### Role-Based Authorization
+File: ChubbInsuranceClaim.postman_collection.json (Available in main project folder)
+# Usage
+1. Open Postman.
+2. Click Import.
+3. Select the ChubbInsuranceClaim.postman_collection.json file.
+4. The collection will be imported with all available API endpoints preconfigured.
+5. Execute the requests to test and verify the functionality of the Chubb Insurance Claims Management API.
 
----
+Ensure the application is running before executing the requests from Postman.
 
-# 29. Simplified Request Flow
 
-```text
-                         CLIENT
-                           │
-                           ▼
-                    ASP.NET WEB API
-                           │
-                           ▼
-                     JWT Middleware
-                           │
-                           ▼
-                       Controller
-                           │
-                           ▼
-                    Business Service
-                           │
-                           ▼
-                       UnitOfWork
-                           │
-                           ▼
-                       Repository
-                           │
-                           ▼
-                    Entity Framework
-                           │
-                           ▼
-                        Database
-```
+# Database Editor
+
+A SQLite database file is included with this project:
+
+File: chubbInsurance.db (Available in main project folder)
+# Usage
+
+You can open this file using any SQLite database management tool, such as:
+
+1. DB Browser for SQLite
+2. SQLiteStudio
+3. SQLite Expert
+4. SQLite database file containing the complete database schema and sample data.
 
 ---
-
-# 31. Summary
-
-This project provides a simple, maintainable insurance claims backend using:
-
-```text
-.NET 8
-ASP.NET Core Web API
-        +
-Clean Architecture
-        +
-Custom User / Role
-        +
-JWT Authentication
-        +
-Business Service Layer
-        +
-Repository Pattern
-        +
-Unit Of Work
-        +
-Entity Framework Core
-        +
-Swagger
-        +
-Global Exception Handling
-```
 
