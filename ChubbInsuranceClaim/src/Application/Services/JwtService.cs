@@ -23,7 +23,6 @@ namespace ChubbInsuranceClaim.src.Application.Services
             var jwtKey = _config["Jwt:Key"]!;
             var jwtIssuer = _config["Jwt:Issuer"]!;
             var jwtAudience = _config["Jwt:Audience"]!;
-            // var expiryMinutes = int.Parse(_configuration["Jwt:ExpiryMinutes"]!);
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

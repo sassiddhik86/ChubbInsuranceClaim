@@ -14,32 +14,12 @@ using ChubbInsuranceClaim.src.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the containe.
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<JwtService>();
 
-//builder.Services.AddScoped<IAuthService, AuthService>();
-
-//builder.Services.AddScoped<IClaimService, ClaimService>();
-
-//builder.Services.AddScoped<IClaimWorkflowService, ClaimWorkflowService>();
-
-//builder.Services.AddScoped<IIncidentService, IncidentService>();
-
-//builder.Services.AddScoped<IDashboardService, DashboardService>();
-
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-//builder.Services.AddScoped<IIncidentRepository, IncidentRepository>();
-//builder.Services.AddScoped<IClaimRepository, ClaimRepository>();
-//builder.Services.AddScoped<IClaimAssignmentRepository, ClaimAssignmentRepository>();
-//builder.Services.AddScoped<IClaimDocumentRepository, ClaimDocumentRepository>();
-
-//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
 builder.Services.AddApplication();
-
 builder.Services.AddInfrastructure();
 
 // JWT Authentication
@@ -97,15 +77,6 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Create database automatically (Development only)
-//using (var scope = app.Services.CreateScope())
-//{
-//    var dbContext = scope.ServiceProvider
-//        .GetRequiredService<ChubbInsuranceClaim.src.Infrastructure.Context.ApplicationDbContext>();
-
-//    dbContext.Database.Migrate();
-//}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -115,6 +86,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+//MIddleware global exception
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();

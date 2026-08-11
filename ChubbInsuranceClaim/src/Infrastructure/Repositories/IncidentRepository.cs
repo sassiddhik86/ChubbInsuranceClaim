@@ -29,14 +29,6 @@ namespace ChubbInsuranceClaim.src.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        //public async Task<List<Incident>> GetAllAsync()
-        //{
-        //    return await _context.Incidents
-        //                       .Include(x => x.CreatedByUser)
-        //                       .AsNoTracking()
-        //                       .ToListAsync();
-        //}
-
         public async Task<Incident?> GetByIdAsync(int id)
         {
             return await _context.Incidents
@@ -52,13 +44,5 @@ namespace ChubbInsuranceClaim.src.Infrastructure.Repositories
         {
             _context.Incidents.Update(incident);
         }
-
-        //public async Task<List<Incident>> GetMyIncidentsAsync(int userId)
-        //{
-        //    return await _context.Incidents
-        //        .Where(x => x.CreatedByUserId == userId)
-        //        .AsNoTracking()
-        //        .ToListAsync();
-        //}
     }
 }

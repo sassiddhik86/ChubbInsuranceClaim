@@ -26,17 +26,11 @@ namespace ChubbInsuranceClaim.src.Infrastructure.Repositories
         }
 
         public IUserRepository Users { get; }
-
         public IRoleRepository Roles { get; }
-
         public IIncidentRepository Incidents { get; }
-
         public IClaimRepository Claims { get; }
-
         public IClaimAssignmentRepository ClaimAssignments { get; }
-
         public IClaimDocumentRepository ClaimDocuments { get; }
-
         public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             return await _context.SaveChangesAsync(cancellationToken);

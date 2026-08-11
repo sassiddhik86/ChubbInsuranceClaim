@@ -9,19 +9,11 @@ namespace ChubbInsuranceClaim.src.Application.Services
     public class AuthService : IAuthService
     {
         private readonly IUnitOfWork _unitOfWork;
-        //private readonly IPasswordHasher _passwordHasher;
-        //private readonly IJwtService _jwtService;
         private readonly JwtService _jwtService;
 
-        //public AuthService(
-        //    IUnitOfWork unitOfWork,
-        //    IPasswordHasher passwordHasher,
-        //    IJwtService jwtService)
-        //{
         public AuthService(IUnitOfWork unitOfWork, JwtService jwt)
         {
             _unitOfWork = unitOfWork;
-            //_passwordHasher = passwordHasher;
             _jwtService = jwt;
         }
 

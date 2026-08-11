@@ -64,21 +64,6 @@ namespace ChubbInsuranceClaim.src.Application.Services
 
         public async Task<List<IncidentResponse>> GetMyIncidentsAsync(int userId)
         {
-
-            /*
-              Current Incident table does not contain UserId.
-
-              In Phase 2 we created Incident as independent entity.
-
-              For production tracking, Incident should contain:
-
-              public int CreatedByUserId { get; set; }
-
-              public User CreatedByUser { get; set; }
-
-              This will be added in the entity improvement.
-            */
-
             var incidents = await _unitOfWork.Incidents.GetAllAsync();
 
             return incidents.Select(MapResponse).ToList();
@@ -86,7 +71,6 @@ namespace ChubbInsuranceClaim.src.Application.Services
 
         private static IncidentResponse MapResponse(Incident incident)
         {
-
             return new IncidentResponse
             {
                 Id = incident.Id,

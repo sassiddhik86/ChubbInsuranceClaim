@@ -15,7 +15,6 @@ namespace ChubbInsuranceClaim.src.Infrastructure
             services.AddScoped<IClaimRepository, ClaimRepository>();
             services.AddScoped<IClaimAssignmentRepository, ClaimAssignmentRepository>();
             services.AddScoped<IClaimDocumentRepository, ClaimDocumentRepository>();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;

@@ -16,15 +16,12 @@ namespace ChubbInsuranceClaim.src.Infrastructure.Repositories
 
         public async Task<List<BusinessRole>> GetAllAsync()
         {
-            return await _context.Roles
-                .AsNoTracking()
-                .ToListAsync();
+            return await _context.Roles.AsNoTracking().ToListAsync();
         }
 
         public async Task<BusinessRole?> GetByIdAsync(int id)
         {
-            return await _context.Roles
-                .FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Roles.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }
