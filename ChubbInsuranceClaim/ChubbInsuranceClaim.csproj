@@ -7,6 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="src\Domain\Constants\**" />
+    <Compile Remove="src\Domain\Exceptions\**" />
+    <Content Remove="src\Domain\Constants\**" />
+    <Content Remove="src\Domain\Exceptions\**" />
+    <EmbeddedResource Remove="src\Domain\Constants\**" />
+    <EmbeddedResource Remove="src\Domain\Exceptions\**" />
+    <None Remove="src\Domain\Constants\**" />
+    <None Remove="src\Domain\Exceptions\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="src\Domain\Entity\AuditLog.cs" />
+    <Compile Remove="src\Domain\Entity\ClaimNote.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
