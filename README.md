@@ -1,4 +1,4 @@
-# Chubb Insurance Claims Management API
+# Chubb Insurance Claims Management Backend
 
 A simple and scalable **Chubb Insurance Claims Management Backend API** built using **ASP.NET Core .NET 8**, Entity Framework Core, JWT Authentication, Clean Architecture, Service Layer, Repository Pattern, and Unit of Work.
 
@@ -47,7 +47,7 @@ Claims staff can review claims, assign claims, request additional information, a
 
 ## Authentication
 
-* User registration
+* User registartion
 * User login
 * JWT authentication
 * Password hashing
@@ -112,15 +112,15 @@ Claims staff can:
 # 3. Project Structure
 
 ```text
-InsuranceClaims
+ChubbInsuranceClaim
 │
-├── InsuranceClaims.sln
+├── ChubbInsuranceClaim.sln
 │
-├── InsuranceClaims.Domain
+├── Domain
 │   │
 │   ├── Entities
-│   │   ├── User.cs
-│   │   ├── Role.cs
+│   │   ├── BusinessUser.cs
+│   │   ├── BusinessRole.cs
 │   │   ├── Claim.cs
 │   │   ├── Incident.cs
 │   │   ├── ClaimAssignment.cs
@@ -132,16 +132,17 @@ InsuranceClaims
 │       └── ...
 │
 │
-├── InsuranceClaims.Application
+├── Application
 │   │
 │   ├── DTOs
-│   │   ├── Auth
-│   │   ├── Claim
+│   │   ├── Authentication
+│   │   ├── Claims
 │   │   ├── Incident
 │   │   └── Dashboard
 │   │
 │   ├── Interfaces
-│   │   └── Services
+│   │   └── Repository
+│   │   └── Service
 │   │
 │   ├── Services
 │   │   ├── AuthService.cs
@@ -149,26 +150,24 @@ InsuranceClaims
 │   │   ├── ClaimWorkflowService.cs
 │   │   ├── IncidentService.cs
 │   │   └── DashboardService.cs
+│   │   └── JwtService.cs
 │   │
 │   └── DependencyInjection.cs
 │
 │
-├── InsuranceClaims.Infrastructure
+├── Infrastructure
 │   │
-│   ├── Data
+│   ├── Context
 │   │   ├── ApplicationDbContext.cs
-│   │   └── Configurations
+│   │
+│   ├── Configurations
 │   │
 │   ├── Repositories
 │   │
-│   ├── UnitOfWork
-│   │
-│   ├── Authentication
-│   │
 │   └── DependencyInjection.cs
 │
 │
-└── InsuranceClaims.API
+└── API
     │
     ├── Controllers
     │   ├── AuthController.cs
@@ -177,7 +176,7 @@ InsuranceClaims
     │   └── DashboardController.cs
     │
     ├── Middlewares
-    │   └── GlobalExceptionMiddleware.cs
+    │   └── ExceptionHandlingMiddleware.cs
     │
     ├── Extensions
     │   └── SwaggerExtension.cs
@@ -532,10 +531,9 @@ In `appsettings.json`:
 ```json
 {
   "Jwt": {
-    "Key": "YOUR_SUPER_SECRET_KEY_AT_LEAST_32_CHARACTERS",
-    "Issuer": "InsuranceClaimsAPI",
-    "Audience": "InsuranceClaimsClient",
-    "ExpiryInMinutes": 120
+    "Key": "ChubbInsuranceClaimsSecretKey123456789SuperSecretKey1234567",
+    "Issuer": "ChubbInsuranceClaimsAPI",
+    "Audience": "ChubbInsuranceClaimsClient"
   }
 }
 ```
@@ -782,12 +780,12 @@ Settled
 ---
 
 # 12. Additional Notes
-# API Testing with Postman
+## API Testing with Postman
 
-A Postman collection file is included with this project:
+A Postman collection file is included with this projcet:
 
 File: ChubbInsuranceClaim.postman_collection.json (Available in main project folder)
-# Usage
+## Usage
 1. Open Postman.
 2. Click Import.
 3. Select the ChubbInsuranceClaim.postman_collection.json file.
@@ -797,12 +795,12 @@ File: ChubbInsuranceClaim.postman_collection.json (Available in main project fol
 Ensure the application is running before executing the requests from Postman.
 
 
-# Database Editor
+## Database Editor
 
 A SQLite database file is included with this project:
 
 File: chubbInsurance.db (Available in main project folder)
-# Usage
+## Usage
 
 You can open this file using any SQLite database management tool, such as:
 
